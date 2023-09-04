@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"> {{ title }}  </h3>
+            </div>
+            <div class="panel-body">
+{#   novalidate不适用浏览器来校验         #}
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% for obj in form %}
+                        <div class="form-group">
+                        {{ obj.label }}
+                        {{ obj }}
+                       <span style="color:red">{{ obj.errors.0 }}</span>
+                        </div>
+                    {% endfor %}
+                        <button type="submit" class="btn btn-primary">提 交</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

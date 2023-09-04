@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>登录</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="username">用户名</label>
+                            {{ form.username }}
+                            <span style="color:red">{{ form.username.errors.0 }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            {{ form.password }}
+                            <span style="color:red">{{ form.password.errors.0 }}</span>
+                        </div>
+                        <!-- 修改后的部分代码 -->
+                        <div class="form-group">
+                            <label for="id_code">图片验证码</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.code }}
+                                     <span style="color:red">{{ form.code.errors.0 }}</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <img id="image_code" src="/image/code">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">登录</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 引入 Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <form id="addform" novalidate>
+            <div class="clearfix">
+                {% for obj in form %}
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label>{{ obj.label }}</label>
+                            {{ obj }}
+                            <span class="error-msg" style="color: red"> </span>
+                        </div>
+                    </div>
+                {% endfor %}
+            <div class="col-xs-12">
+                <button type="button" id="btnADD" class="btn btn-primary">提 交</button>
+                </div>
+            </div>
+
+
+        </form>
+        <br/>
+        <h1>AJAX学习</h1>
+        <h3>示例1</h3>
+        <input type="button" class="btn-primary" value="点击" onclick="Clickme()">
+        <h3>示例2</h3>
+        <input type="text" placeholder="用户名" id="username">
+        <input type="password" placeholder="密码" id="pwd">
+        <input type="button" class="btn-primary" value="点击" id="btn2">
+        <h3>示例3</h3>
+        <form id="form3">
+            <input type="text" placeholder="用户名" name="username">
+            <input type="password" placeholder="密码" name="pwd">
+            <input type="text" placeholder="邮箱" name="emal">
+            <input type="text" placeholder="介绍" name="more">
+            <input type="button" class="btn-primary" value="点击" id="btn3">
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(function () {
+            //页面框架加载完之后代码自动执行
+            bindBtn2Event();
+            bindBtn3Event();
+            bindBtnaddEvent();
+        })
+
+        function bindBtn2Event() {
+            $("#btn2").click(function () {
+                $.ajax({
+                    url: '/task/ajax/',
+                    type: 'post',
+                    data: {
+                        name: $("#username").val(),
+                        pwd: $("#pwd").val(),
+                    },
+                    dataType: 'JSON',
+                    success: function (res) {
+                        console.log(res.staus);
+                        console.log(res.data);
+                    }
+                })
+            })
+        }
+
+        function bindBtn3Event() {
+            $("#btn3").click(function () {
+                $.ajax({
+                    url: '/task/ajax/',
+                    type: 'post',
+                    data: $('#form3').serialize(),
+                    dataType: 'JSON',
+                    success: function (res) {
+                        console.log(res.staus);
+                        console.log(res.data);
+                    }
+                })
+            })
+        }
+
+        function bindBtnaddEvent() {
+            $("#btnADD").click(function () {
+                $(".error-msg").empty();
+                $.ajax({
+                    url: '/task/add/',
+                    type: 'post',
+                    data: $('#addform').serialize(),
+                    dataType: 'JSON',
+                       success: function (res) {
+                   if(res.status){
+                       alert("添加成功")
+                   }else{
+                       $.each(res.error,function(name,data){
+                           $("#id_"+name).next().text(data[0])
+                       })
+                   }
+                }
+                })
+            })
+        }
+
+
+    </script>
+    <script type="text/javascript">
+        function Clickme() {
+            $.ajax({
+                url: '/task/ajax/',
+                type: 'post',
+                data: {
+                    n1: 123,
+                    n2: 456
+                },
+                dataType: 'JSON',
+                success: function (res) {
+
+
+                   console.log(666)
+                }
+            })
+        }
+    </script>
+{% endblock %}
